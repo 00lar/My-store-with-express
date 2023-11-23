@@ -19,6 +19,14 @@ router.get("/",(req,res) => {
 
   })
 
+  router.post("/", (req, res) => {
+    const body = req.body;
+    res.json({
+      message: "created",
+      data: body
+    })
+  })
+
   router.get("/:id", (req,res) => {
     const {id} = req.params;
     res.json({
