@@ -23,7 +23,18 @@ app.get("/products",(req,res) => {
     }
 
   ])
-})
+  
+  app.get("/users", (req,res) => {
+    const {limit, offset} = res.query;
+    if(limit && offset) {
+      res.json({
+        limit,
+        offset
+      }) 
+    } else {
+      res.send("No hay parametros")
+    }
+  })
 
 app.get("/products/:id", (req,res) => {
   const {id} = req.params;
