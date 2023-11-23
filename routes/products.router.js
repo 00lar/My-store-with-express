@@ -1,5 +1,6 @@
 const { faker } = require("@faker-js/faker");
 const express = require("express");
+const { route } = require("./products.router");
 
 const router = express.Router();
 
@@ -38,6 +39,25 @@ router.get("/",(req,res) => {
 
   router.get("/filter", (req,res) => {
     res.send("Yo soy un filter")
+  })
+
+  router.patch("/:id", (req, res) => {
+    const body = req.body
+    const {id} = req.params;
+    res.json({
+      message: "updated",
+      data: body,
+      id
+    })
+  })
+
+  router.delete("/:id", (req, res) => {
+    const {id} = req.params
+    const body = req.body
+    req.json ({
+      message: "deleted",
+      id
+    })
   })
 
   module.exports = router;
