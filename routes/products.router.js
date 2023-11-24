@@ -1,21 +1,15 @@
-const { faker } = require("@faker-js/faker");
+
 const express = require("express");
 const { route } = require("./products.router");
+
+const ProductsService = require("../services/product.service")
+const service = new ProductsService();
 
 const router = express.Router();
 
 router.get("/",(req,res) => {
-  const productos = [];
-  const {size} = req.query;
-  const limite = size || 10;
+  const productos = service.find();
 
-  for (let index = 0 ; index < limite; index++){
-    productos.push({
-      name: faker.commerce.productName(),
-      price: parseInt(faker.commerce.price(),10),
-      Image: faker.image.url(),
-    })
-  }
   res.json(productos)
 
   })
@@ -30,17 +24,8 @@ router.get("/",(req,res) => {
 
   router.get("/:id", (req,res) => {
     const {id} = req.params;
-    if (id == 999) {
-      res.status(404).json ({
-        message: "not found"
-      })
-    } else {
-      res.status(200).json({
-        id,
-        name: "product 2",
-          price: 1000,
-      })
-    }
+    const product = service.findOne(id);
+    res.json(product);
 
   }),
 
