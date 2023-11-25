@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const port = 3001;
 const routerApi = require('./routes');
+const { errorHandler, logErrors } = require('./middlewares/error.handle');
 
 //middleware
 console.clear();
@@ -12,8 +13,11 @@ app.get('/', (req, res) => {
   res.send('hello to my server in express');
 });
 
+routerApi(app);
+
+app.use(logErrors);
+app.use(errorHandler);
+
 app.listen(port, () => {
   console.log('My port:' + port);
 });
-
-routerApi(app);
