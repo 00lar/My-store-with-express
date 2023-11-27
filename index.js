@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
+const cors = require("cors")
 const port = 3001;
+
+
 const routerApi = require('./routes');
 const {
   errorHandler,
@@ -13,6 +16,18 @@ const boom = require('@hapi/boom');
 console.clear();
 
 app.use(express.json());
+
+const whitelist = ["http://localhost:8080", "http://myapp.co"]
+const options = {
+  origin: (origin, callback) => {
+    if (whitelist.includes(origin)){
+      callback(null, true)
+    } else {
+      callback(new Error("No permitido"))
+    }
+  }
+}
+app.use(cors())
 
 app.get('/', (req, res) => {
   res.send('hello to my server in express');
