@@ -2,7 +2,12 @@ const express = require('express');
 const app = express();
 const port = 3001;
 const routerApi = require('./routes');
-const { errorHandler, logErrors } = require('./middlewares/error.handle');
+const {
+  errorHandler,
+  logErrors,
+  boomHandler,
+} = require('./middlewares/error.handle');
+const boom = require('@hapi/boom');
 
 //middleware
 console.clear();
@@ -16,6 +21,7 @@ app.get('/', (req, res) => {
 routerApi(app);
 
 app.use(logErrors);
+app.use(boomHandler);
 app.use(errorHandler);
 
 app.listen(port, () => {
